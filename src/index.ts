@@ -1,1 +1,8 @@
-console.log('Hello World!!!!');
+import { showMenu } from "./helpers/messages";
+
+
+const main = async () => {
+  showMenu();
+}
+
+main();
