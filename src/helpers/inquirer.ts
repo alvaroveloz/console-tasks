@@ -19,3 +19,15 @@ export const pauseMenu = async () => {
     message: 'Press ENTER to continue',
   })
 }
+
+export const readInput = async () => {
+  return await input({
+    message: 'Enter the new message',
+    validate: (value) => {
+      if (value.length === 0) {
+        return 'Please enter a value';
+      }
+      return true
+    }
+  })
+}
