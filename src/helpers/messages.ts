@@ -1,26 +1,52 @@
 import colors from "colors/safe";
+import readline from 'readline';
+import { fillSpace } from "./functions";
+import { menu } from "../constants/menu";
 
-const menu = [
-  { text: 'Create a new task',    value: 1 },
-  { text: 'List all tasks',       value: 2 },
-  { text: 'List completed tasks', value: 3 },
-  { text: 'List pending tasks',   value: 4 },
-  { text: 'Complete task',        value: 5 },
-  { text: 'Delete task',          value: 6 },
-  { text: 'Exit',                 value: 0 }
-]
+
 
 export const showMenu = () => {
   console.clear();
-  const BLANK_DEFAULT = 60;
-  const SPACE = ' ';
 
   console.log(colors.bgBlue(colors.green('      ===========================       ')));
   console.log(colors.bgBlue(colors.green('            Select an option            ')));
   console.log(colors.bgBlue(colors.green('      ===========================       ')));
   menu.forEach(element => {
     const menuToDisplay = colors.bgBlue(`${colors.green(element.value.toString())}. ${element.text} `);
-    console.log(`${menuToDisplay}${colors.bgBlue(SPACE.repeat(BLANK_DEFAULT - menuToDisplay.length))} `);
+    //console.log(`${menuToDisplay}${colors.bgBlue(SPACE.repeat(BLANK_DEFAULT - menuToDisplay.length))} `);
+    console.log(`${menuToDisplay}${fillSpace(menuToDisplay)}`);
   });
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+
+  const question = colors.bgBlue('Choose an option: ')
+  const fullQuestion = question + fillSpace(question)
+
+  rl.question(fullQuestion, (answer) => {
+    console.log(answer);
+    rl.close();
+    return answer
+  })
+
+}
+
+
+export const pausePrompt = () => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+
+  const question = colors.bgBlue(`Press ${colors.green('ENTER')} to continue`)
+  const fullQuestion = question + fillSpace(question)
+
+  rl.question( fullQuestion , (answer) => {
+    console.log(answer);
+    rl.close();
+    return answer
+  })
 
 }
