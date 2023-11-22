@@ -1,26 +1,18 @@
 
 import { readFile, saveFile } from "./helpers/saveFile";
-import { inquirerMenu, pauseMenu, readInput } from "./helpers/inquirer";
+import { confirmSelection, inquirerMenu, listTasksToDelete, listTasksToEdit, pauseMenu, readInput } from "./helpers/inquirer";
 import { Tasks } from "./models/Tasks";
-import { STATUS, TASK_STATUS } from "./interfaces/Task";
-
-// import { showMenu, pausePrompt } from "./helpers/messages";
-
+import { TASK_STATUS } from "./interfaces/Task";
 
 const main = async () => {
-  // showMenu();
-  // pausePrompt();
 
   let option: number;
   const tareas = new Tasks();
   const tasksDB = readFile();
 
-
-
   if (tasksDB) {
     tareas.loadTasksFromArray(tasksDB);
   }
-
 
   do {
     option = await inquirerMenu();
@@ -41,6 +33,19 @@ const main = async () => {
 
       case 4:
         tareas.listTasksByStatus(TASK_STATUS.PENDING);
+        break;
+
+      case 5:
+        const idToEdit = await listTasksToEdit(tareas.listArray);
+        tareas.toggleTasks(idToEdit);
+        break;
+
+      case 6:
+        const id = await listTasksToDelete(tareas.listArray);
+        if (id !== '0') {
+          const answer = await confirmSelection();
+          if (answer) tareas.deleteTask(id);
+        }
         break;
 
       case 0:

@@ -37,6 +37,12 @@ export class Tasks {
     return this._list;
   }
 
+  deleteTask = ( id: string)=> {
+    if (this._list[id]) {
+      delete this._list[id];
+    }
+  }
+
   listAllTasks = () => {
     this.listArray.forEach((task, i) => {
       const idx = colors.green(`${i + 1}`);
@@ -51,6 +57,17 @@ export class Tasks {
         const idx = colors.green(`${i + 1}`);
         const STATUS = task._completed ? colors.green(TASK_STATUS.COMPLETED) : colors.red(TASK_STATUS.PENDING);
         console.log(`${idx}: ${task._description} \t|| Status: ${STATUS}`)
+      }
+    })
+  }
+
+  toggleTasks = ( ids: string[] = []) => {
+    this.listArray.forEach(task => {
+      if (ids.includes(task._id)) {
+        task._completed = true;
+      }
+      else {
+        task._completed = false;
       }
     })
   }
